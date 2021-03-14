@@ -77,6 +77,8 @@ jobs:
         if: ${{ !env.ACT }}
 
     - run: gh api repos/wojtekmach/beamup2/actions/runs/${{ env.GITHUB_RUN_ID }}/artifacts
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       if: ${{ !env.ACT }}
 
     # - id: upload-url
