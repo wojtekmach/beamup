@@ -12,6 +12,8 @@ jobs:
     steps:
       - run: gh api -XHEAD repos/erlang/otp/releases/tags/OTP-${{ github.event.inputs.version }}
         name: Check erlang/otp
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - id: check-release
         name: Check wojtekmach/otp_releases 
@@ -21,6 +23,8 @@ jobs:
           else
             echo ::set-output name=exists::$(echo false)
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release
         id: create_release
