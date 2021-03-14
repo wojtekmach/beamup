@@ -5,5 +5,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: ${{ github.action_path }}/../scripts/setup_otp.sh ${{ inputs.otp-version }}
+    - run: ${{ github.action_path }}/../install.sh ${{ inputs.otp-version }}
+      shell: bash
+    - run: echo  $HOME/.local/share/beamup/installs/otp/${{ inputs.otp-version }} >> $GITHUB_PATH
       shell: bash
