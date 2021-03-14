@@ -8,3 +8,5 @@ if [ -z "${otp_version}" ]; then
 fi
 
 echo "using OTP ${otp_version}"
+
+curl --help
