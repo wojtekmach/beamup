@@ -18,7 +18,7 @@ This project contains four main components:
 
    `build_otp.yml` uses the `ubuntu-16.04` and `macos-10.15` GitHub Actions runners so that we build releases for the `linux-x86_64` and `darwin-x86_64` targets. I've additionally built locally and uploaded releases for `linux-aarch64` and `darwin-arm64`.
 
-### 2. Hosting - a place where release tarballs are stored.
+### 2. Hosting - on GitHub releases
 
    Currently we use a separate GitHub repository that just holds releases so that we can upload
    asserts. Eventually we hope to simply use <https://github.com/erlang/otp/releases>.
@@ -32,12 +32,20 @@ This project contains four main components:
    - for OTP: <https://github.com/wojtekmach/otp_releases/releases>
    - for Elixir: <https://github.com/elixir-lang/elixim/releases>
 
-
-   Example:
+   Example with Docker:
 
    ```
-   $ export OTP_VERSION=23.2.7 ELIXIR_VERSION=1.11.3 && \
-       curl https://raw.githubusercontent.com/wojtekmach/beamup2/master/install.sh | bash
+   $ docker run --rm -it ubuntu bash
+
+   docker$ apt update && apt install -y curl unzip && export LANG=C.UTF-8
+
+   docker$ export OTP_VERSION=23.2.7 ELIXIR_VERSION=1.11.3 && \
+             curl https://raw.githubusercontent.com/wojtekmach/beamup/master/install.sh | bash
+
+   docker$ elixir --version
+   Erlang/OTP 23 [erts-11.1.8] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:1]
+
+   Elixir 1.11.3 (compiled with Erlang/OTP 21)
    ```
 
 ### 4. `setup-beam` - installs BEAM languages on GitHub actions
@@ -45,27 +53,12 @@ This project contains four main components:
    Example:
 
    ```yaml
-   - uses: wojtekmach/beamup2/setup-beam@master
+   - uses: wojtekmach/beamup/setup-beam@master
      with:
        otp-version: 24.0-rc1
        elixir-version: 1.11.3
    - run: elixir version
    ```
-
-## Usage with Docker
-
-```
-$ docker run --rm -it ubuntu bash
-
-docker$ apt update && apt install -y curl unzip
-docker$ export LANG=C.UTF-8
-docker$ export OTP_VERSION=23.2.7 ELIXIR_VERSION=1.11.3 && \
-          curl https://raw.githubusercontent.com/wojtekmach/beamup2/master/install.sh | bash
-docker$ elixir --version
-Erlang/OTP 23 [erts-11.1.8] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:1]
-
-Elixir 1.11.3 (compiled with Erlang/OTP 21)
-```
 
 ## Notes
 
@@ -74,7 +67,7 @@ Elixir 1.11.3 (compiled with Erlang/OTP 21)
 ./test/test.sh workflow_dispatch -e <(echo '{"inputs":{"version":"23.2.7"}}') -r
 
 # trigger workflow dispatch
-gh api -XPOST repos/wojtekmach/beamup2/actions/workflows/build_otp.yml/dispatches \
+gh api -XPOST repos/wojtekmach/beamup/actions/workflows/build_otp.yml/dispatches \
   --input <(echo '{"ref":"master","inputs":{"version":"23.2.7"}}')
 
 # build release tarball locally and upload it
