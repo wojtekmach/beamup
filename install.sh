@@ -83,8 +83,10 @@ install_elixir() {
 install_gleam() {
   version=$1
   case $(uname -s) in
+    # TODO: $(uname -sm | tr '[:upper:]' '[:lower:]' | tr ' ' '-') or something should do the trick
+    # we need to fix https://github.com/gleam-lang/gleam/blob/v0.14.2/.github/workflows/release.yaml#L29
     "Linux")
-      extra=linux-$(uname -m)
+      extra=linux-amd64
       ;;
     "Darwin")
       extra=macos
