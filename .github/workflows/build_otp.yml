@@ -64,11 +64,11 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - run: TMPDIR=$PWD/tmp ./scripts/build_otp.sh ${{ github.event.inputs.version }}
-      if: ${{ steps.asset-exists.outputs.exists == 'false' }}
-
-    # - run: mkdir -p tmp && cd tmp && mkdir -p ${{ steps.release-name.outputs.name }} && tar czf ${{ steps.release-name.outputs.name }}.tar.gz ${{ steps.release-name.outputs.name }}
+    # - run: TMPDIR=$PWD/tmp ./scripts/build_otp.sh ${{ github.event.inputs.version }}
     #   if: ${{ steps.asset-exists.outputs.exists == 'false' }}
+
+    - run: mkdir -p tmp && cd tmp && mkdir -p ${{ steps.release-name.outputs.name }} && tar czf ${{ steps.release-name.outputs.name }}.tar.gz ${{ steps.release-name.outputs.name }}
+      if: ${{ steps.asset-exists.outputs.exists == 'false' }}
 
     - id: upload-url
       name: Set upload url
