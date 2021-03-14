@@ -14,4 +14,4 @@ jobs:
       - uses: ./setup-beam
         with:
           otp-version: 24.0-rc1
-      - run: erl -version
+      - run: erl -eval 'io:format("~s~n", [erlang:system_info(system_architecture)]),timer:sleep(100),halt().'
