@@ -70,11 +70,11 @@ jobs:
     # - run: mkdir -p tmp/beamup && cd tmp/beamup && mkdir -p ${{ steps.release-name.outputs.name }} && tar czf ${{ steps.release-name.outputs.name }}.tar.gz ${{ steps.release-name.outputs.name }}
     #   if: ${{ steps.asset-exists.outputs.exists == 'false' }}
 
-    - uses: actions/upload-artifact@v2
-      with:
-        name: ${{ steps.release-name.outputs.name }}
-        path: tmp/beamup/${{ steps.release-name.outputs.name }}.tar.gz
-        if: ${{ !env.ACT }}
+    # - uses: actions/upload-artifact@v2
+    #   with:
+    #     name: ${{ steps.release-name.outputs.name }}
+    #     path: tmp/beamup/${{ steps.release-name.outputs.name }}.tar.gz
+    #     if: ${{ !env.ACT }}
 
     - run: echo '{"ref":"main","inputs":{"tag":"OTP-${{ github.event.inputs.version }}","workflow_url":"repos/wojtekmach/beamup2/actions/runs/'${GITHUB_RUN_ID}'"}}' > input.txt
 
