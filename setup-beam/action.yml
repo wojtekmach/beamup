@@ -14,6 +14,7 @@ runs:
     - run: echo "$HOME/.local/share/beamup/installs/otp/${{ inputs.otp-version }}/bin" >> $GITHUB_PATH
       shell: bash
 
-    - run: echo "$HOME/.local/share/beamup/installs/elixir/${{ inputs.elixir-version }}/bin" >> $GITHUB_PATH
+    - run: |
+        [[ "${{ inputs.elixir-version }}" != "" ]] && \
+          echo "$HOME/.local/share/beamup/installs/elixir/${{ inputs.elixir-version }}/bin" >> $GITHUB_PATH || true
       shell: bash
-      if: ${{ inputs.elixir-version }} != ''
