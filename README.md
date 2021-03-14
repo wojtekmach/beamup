@@ -38,7 +38,7 @@ See [`install.sh`](install.sh).
 
 We download pre-compiled binaries from:
 
-- for OTP: <https://github.com/wojtekmach/otp_releases/releases>
+- for OTP: <https://github.com/wojtekmach/otp_releases/releases> (including the latest Rebar3 from <http://rebar3.org>)
 - for Elixir: <https://github.com/elixir-lang/elixir/releases>
 - for Gleam: <https://github.com/gleam-lang/gleam/releases>
 

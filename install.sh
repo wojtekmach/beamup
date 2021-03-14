@@ -18,8 +18,8 @@ main() {
   TMPDIR="${TMPDIR:=/tmp}/beamup-install"
   mkdir -p $TMPDIR
 
-  # cd $TMPDIR
-  # install_otp $OTP_VERSION
+  cd $TMPDIR
+  install_otp $OTP_VERSION
 
   if [ -n "${ELIXIR_VERSION}" ]; then
     cd $TMPDIR
@@ -57,6 +57,12 @@ install_otp() {
   mv $release $otp_root/$version
   cd $otp_root/$version
   ./Install -sasl $PWD
+
+  url=https://s3.amazonaws.com/rebar3/rebar3
+  echo ">> downloading $url"
+  echo ">> installing rebar3 to $otp_root/$version"
+  curl --fail -L $url > $otp_root/$version/bin/rebar3
+  chmod +x $otp_root/$version/bin/rebar3
 
   mkdir -p $root/bin
   ln -fs $otp_root/$version/bin/* $root/bin
