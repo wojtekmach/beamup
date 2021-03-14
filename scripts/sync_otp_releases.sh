@@ -10,7 +10,7 @@ otp_tags=$(
   tags erlang/otp | \
     # OTP 23.2.7+ or 24
     grep -e OTP-23.2 -e OTP-24 | \
-    grep -E -v -e "OTP-23.2$" -e "OTP-23.2.[1-6]"
+    grep -E -v -e "OTP-23.2$" -e "OTP-23.2.[1-5]"
 )
 
 for i in $otp_tags; do
@@ -18,7 +18,7 @@ for i in $otp_tags; do
     echo release $i already exists
   else
     echo "syncing $i"
-    echo '{"ref":"master","inputs":{"tag":"'${i}'"}}' | \
-    gh api -XPOST /repos/wojtekmach/beamup2/actions/workflows/build_otp.yml/dispatches --input - 
+    gh api -XPOST repos/wojtekmach/beamup2/actions/workflows/build_otp.yml/dispatches \
+      --input <(echo '{"ref":"master","inputs":{"tag":"'${i}'"}}')
   fi
 done
