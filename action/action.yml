@@ -5,5 +5,5 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: ${{ github.action_path }}/../setup_otp.sh ${{ inputs.otp-version }}
+    - run: ${{ github.action_path }}/../scripts/setup_otp.sh ${{ inputs.otp-version }}
       shell: bash
