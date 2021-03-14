@@ -5,9 +5,6 @@ on:
       version:
         description: 'The OTP version'
         required: true
-      prerelease:
-        description: 'Is it a pre-release?'
-        default: false
 
 jobs:
   ensure_release:
@@ -35,7 +32,7 @@ jobs:
           repo: otp_releases
           commitish: main
           tag_name: OTP-${{ github.event.inputs.version }}
-          prerelease: ${{ contains(github.event.inputs.version, "rc") }}
+          prerelease: ${{ contains(github.event.inputs.version, 'rc') }}
         if: ${{ steps.check-release.outputs.exists == 'false' }}
 
   build:
