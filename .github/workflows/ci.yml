@@ -5,6 +5,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: wojtekmach/beamup2@master
+      - uses: "."
         with:
           otp-version: 24.0-rc1
