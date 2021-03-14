@@ -12,7 +12,7 @@ jobs:
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
     steps:
-      - run: gh release create -R wojtekmach/otp_releases OTP-${{ github.event.inputs.version }} || true
+      - run: gh api -XPOST repos/wojtekmach/otp_releases/releases -Ftag_name=OTP-${{ github.event.inputs.version }} || true
         if: ${{ !env.ACT }}
 
   build:
