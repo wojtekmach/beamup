@@ -76,8 +76,9 @@ jobs:
     #     path: tmp/beamup/${{ steps.release-name.outputs.name }}.tar.gz
     #     if: ${{ !env.ACT }}
 
-    - run: echo '{"ref":"main","inputs":{"workflow_url":"repos/wojtekmach/beamup2/actions/runs/'${GITHUB_RUN_ID}'"}}' | \
-           gh api -XPOST repos/wojtekmach/otp_releases/actions/workflows/upload_assets.yml/dispatches
+    - run: echo '{"ref":"main","inputs":{"workflow_url":"repos/wojtekmach/beamup2/actions/runs/'${GITHUB_RUN_ID}'"}}' > input.txt
+
+    - run: gh api -XPOST repos/wojtekmach/otp_releases/actions/workflows/upload_assets.yml/dispatches --input input.txt
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
