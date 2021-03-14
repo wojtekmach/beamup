@@ -29,7 +29,7 @@ This project contains four main pieces:
 
    ```
    $ export OTP_VERSION=23.2.7 ELIXIR_VERSION=1.11.3 && \
-       curl https://raw.githubusercontent.com/wojtekmach/beamup2/master/install.sh | bash
+       curl https://raw.githubusercontent.com/wojtekmach/beamup/master/install.sh | bash
    ```
 
 4. `setup-beam` - installs BEAM languages on GitHub actions.
@@ -42,7 +42,7 @@ This project contains four main pieces:
    Example:
 
    ```yaml
-   - uses: wojtekmach/beamup2/setup-beam@master
+   - uses: wojtekmach/beamup/setup-beam@master
      with:
        otp-version: 24.0-rc1
        elixir-version: 1.11.3
@@ -57,7 +57,7 @@ $ docker run --rm -it ubuntu bash
 docker$ apt update && apt install -y curl unzip
 docker$ export LANG=C.UTF-8
 docker$ export OTP_VERSION=23.2.7 ELIXIR_VERSION=1.11.3 && \
-          curl https://raw.githubusercontent.com/wojtekmach/beamup2/master/install.sh | bash
+          curl https://raw.githubusercontent.com/wojtekmach/beamup/master/install.sh | bash
 docker$ elixir --version
 Erlang/OTP 23 [erts-11.1.8] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:1]
 
@@ -71,7 +71,7 @@ Elixir 1.11.3 (compiled with Erlang/OTP 21)
 ./test/test.sh workflow_dispatch -e <(echo '{"inputs":{"version":"23.2.7"}}') -r
 
 # trigger workflow dispatch
-gh api -XPOST repos/wojtekmach/beamup2/actions/workflows/build_otp.yml/dispatches \
+gh api -XPOST repos/wojtekmach/beamup/actions/workflows/build_otp.yml/dispatches \
   --input <(echo '{"ref":"master","inputs":{"version":"23.2.7"}}')
 
 # build release tarball locally and upload it

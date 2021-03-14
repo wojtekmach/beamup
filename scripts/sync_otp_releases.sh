@@ -18,7 +18,7 @@ for i in $otp_tags; do
     echo release $i already exists
   else
     echo "syncing $i"
-    gh api -XPOST repos/wojtekmach/beamup2/actions/workflows/build_otp.yml/dispatches \
+    gh api -XPOST repos/wojtekmach/beamup/actions/workflows/build_otp.yml/dispatches \
       --input <(echo '{"ref":"master","inputs":{"version":"'${i/OTP-/}'"}}')
   fi
 done
