@@ -52,7 +52,7 @@ jobs:
 
     - name: Set release name
       id: release-name
-      run: echo ::set-output name=name::$(echo otp-${{ github.event.inputs.version }}-$(uname -s)-$(uname -m) | tr '[:upper:]' '[:lower:]')
+      run: echo ::set-output name=name::otp-${{ github.event.inputs.version }}-$(uname -sm | tr '[:upper:]' '[:lower:]' | tr ' ' '-').tar.gz
 
     - id: asset-exists
       name: Check if release asset exists
