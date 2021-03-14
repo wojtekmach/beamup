@@ -2,10 +2,8 @@ name: Setup BEAM
 inputs:
   otp-version:
     description: "The OTP version"
-outputs:
-  otp-version:
-    description: "The OTP version"
 runs:
   using: composite
   steps:
     - run: ${{ github.action_path }}/../setup_otp.sh ${{ inputs.otp-version }}
+      shell: bash
