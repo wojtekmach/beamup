@@ -5,6 +5,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: "./.."
+      - uses: actions/checkout@v2
+      - uses: .
         with:
           otp-version: 24.0-rc1
