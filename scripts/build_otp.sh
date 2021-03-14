@@ -8,7 +8,7 @@ if [ -z "${version}" ]; then
   exit 1
 fi
 
-OTP_BUILD_FLAGS="--without-jinterface"
+OTP_BUILD_FLAGS="--without-jinterface --without-hipe"
 
 echo "building OTP ${version}"
 
