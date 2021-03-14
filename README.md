@@ -66,7 +66,7 @@ Example:
   with:
     otp-version: 24.0-rc1
     elixir-version: 1.11.3
-- run: elixir version
+- run: elixir --version
 ```
 
 ## Notes
