@@ -77,7 +77,7 @@ jobs:
     #     if: ${{ !env.ACT }}
 
     - run: gh api -XPOST repos/wojtekmach/otp_releases/actions/workflows/upload_assets.yml/dispatches \
-        --input <(echo '{"ref":"main","inputs":{"workflow_url":"repos/wojtekmach/beamup2/actions/runs/${GITHUB_RUN_ID}"}}')
+        --input <(echo '{"ref":"main","inputs":{"workflow_url":"repos/wojtekmach/beamup2/actions/runs/'${GITHUB_RUN_ID}'"}}')
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
