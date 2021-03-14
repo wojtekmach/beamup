@@ -2,9 +2,11 @@
 
 A proof-of-concept BEAM installer.
 
-This project contains four main pieces:
+## Components
 
-## 1. Builder - builds OTP releases
+This project contains four main components:
+
+### 1. Builder - builds OTP releases
 
    - [`build_otp.sh`](scripts/build_otp.sh) script
 
@@ -16,14 +18,14 @@ This project contains four main pieces:
 
    `build_otp.yml` uses the `ubuntu-16.04` and `macos-10.15` GitHub Actions runners so that we build releases for the `linux-x86_64` and `darwin-x86_64` targets. I've additionally built locally and uploaded releases for `linux-aarch64` and `darwin-arm64`.
 
-## 2. Hosting - a place where release tarballs are stored.
+### 2. Hosting - a place where release tarballs are stored.
 
    Currently we use a separate GitHub repository that just holds releases so that we can upload
    asserts. Eventually we hope to simply use <https://github.com/erlang/otp/releases>.
 
    See: <https://github.com/wojtekmach/otp_releases/releases>
 
-## 3. Installer - installs releases
+### 3. Installer - installs releases
 
    We downoad pre-compiled binaries from:
 
@@ -38,7 +40,7 @@ This project contains four main pieces:
        curl https://raw.githubusercontent.com/wojtekmach/beamup2/master/install.sh | bash
    ```
 
-## 4. `setup-beam` - installs BEAM languages on GitHub actions
+### 4. `setup-beam` - installs BEAM languages on GitHub actions
 
    Example:
 
