@@ -32,7 +32,12 @@ This project contains four main pieces:
        curl https://raw.githubusercontent.com/wojtekmach/beamup2/master/install.sh | bash
    ```
 
-4. `setup-beam` - installs OTP releases hosted by beamup into GitHub Actions.
+4. `setup-beam` - installs BEAM languages on GitHub actions.
+
+   We downoad pre-compiled binaries from:
+
+   - for OTP: <https://github.com/wojtekmach/otp_releases/releases>
+   - for Elixir: <https://github.com/elixir-lang/elixir/releases>
 
    Example:
 
@@ -40,7 +45,8 @@ This project contains four main pieces:
    - uses: wojtekmach/beamup2/setup-beam@master
      with:
        otp-version: 24.0-rc1
-   - run: erl -eval 'halt().'
+       elixir-version: 1.11.3
+   - run: elixir version
    ```
 
 ## Usage with Docker
