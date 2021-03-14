@@ -5,6 +5,7 @@ on:
 
 jobs:
   sync_otp_releases:
+    name: Sync OTP releases
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
