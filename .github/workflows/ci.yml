@@ -14,4 +14,4 @@ jobs:
       - uses: ./setup-beam
         with:
           otp-version: 24.0-rc1
-      - run: erl -eval 'halt().'
+      - run: erl -version
