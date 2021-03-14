@@ -1,0 +1,14 @@
+name: Build OTP release
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'The git tag of the release'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        echo "Hello ${{ github.event.inputs.tag }}!"

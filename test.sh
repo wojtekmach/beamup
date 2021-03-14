@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Setup:
+# # install https://cli.github.com
 # cd ..
 # gh repo clone nektos/act 
 # gh pr checkout 514
