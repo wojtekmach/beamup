@@ -7,6 +7,7 @@ jobs:
     name: CI
     steps:
       - uses: actions/checkout@v2
-      - uses: ./action
+      - uses: ./setup-beam
         with:
           otp-version: 24.0-rc1
+      - run: erl -eval 'halt().'
