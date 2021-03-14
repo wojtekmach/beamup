@@ -18,12 +18,17 @@ main() {
   TMPDIR="${TMPDIR:=/tmp}/beamup-install"
   mkdir -p $TMPDIR
 
-  cd $TMPDIR
-  install_otp $OTP_VERSION
+  # cd $TMPDIR
+  # install_otp $OTP_VERSION
 
   if [ -n "${ELIXIR_VERSION}" ]; then
     cd $TMPDIR
     install_elixir ${ELIXIR_VERSION}
+  fi
+
+  if [ -n "${GLEAM_VERSION}" ]; then
+    cd $TMPDIR
+    install_gleam ${GLEAM_VERSION}
   fi
 
   echo
@@ -73,6 +78,38 @@ install_elixir() {
   mv elixir-$version $elixir_root/$version
   mkdir -p $root/bin
   ln -fs $elixir_root/$version/bin/* $root/bin
+}
+
+install_gleam() {
+  version=$1
+  case $(uname -s) in
+    "Linux")
+      extra=linux-$(uname -m)
+      ;;
+    "Darwin")
+      extra=macos
+      ;;
+
+    *)
+      echo $(uname -s) is not supported
+      exit 1
+      ;;
+  esac
+  release=gleam-v$version-$extra
+  url=https://github.com/gleam-lang/gleam/releases/download/v$version/$release.tar.gz
+  echo ">> downloading $url"
+  curl --fail -LO $url
+  tar xzf $release.tar.gz
+
+  root=$HOME/.local/share/beamup
+  gleam_root=$root/installs/gleam
+
+  echo ">> installing to $gleam_root/$version"
+  rm -rf $gleam_root/$version
+  mkdir -p $gleam_root/$version
+  mv gleam $gleam_root/$version
+  mkdir -p $root/bin
+  ln -fs $gleam_root/$version/gleam $root/bin/
 }
 
 main

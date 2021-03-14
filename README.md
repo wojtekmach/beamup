@@ -40,6 +40,7 @@ We download pre-compiled binaries from:
 
 - for OTP: <https://github.com/wojtekmach/otp_releases/releases>
 - for Elixir: <https://github.com/elixir-lang/elixir/releases>
+- for Gleam: <https://github.com/gleam-lang/gleam/releases>
 
 Example with Docker:
 
