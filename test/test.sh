@@ -7,7 +7,7 @@ for i in .github/workflows/*.yml; do
   cat $i | sed s/ACTIONS_TOKEN/GITHUB_TOKEN/g >> tmp/$(basename $i)
 done
 
-docker build test/ -f test/ubuntu-16.04.dockerfile -t ubuntu-16.04:latest
+docker build test/ -f test/ubuntu-16.04.dockerfile -t beamup-test:ubuntu-16.04
 
 # Setup:
 # # install https://cli.github.com
@@ -16,4 +16,4 @@ docker build test/ -f test/ubuntu-16.04.dockerfile -t ubuntu-16.04:latest
 # gh pr checkout 514
 # go build
 
-../act/act --workflows tmp -P ubuntu-16.04=ubuntu-16.04:latest $@
+../act/act --workflows tmp -P ubuntu-16.04=beamup-test:ubuntu-16.04 $@
