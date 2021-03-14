@@ -3,8 +3,12 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-16.04
+    runs-on: ${{ matrix.os }}
     name: CI
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-16.04, macos-10.15]
     steps:
       - uses: actions/checkout@v2
       - uses: ./setup-beam
