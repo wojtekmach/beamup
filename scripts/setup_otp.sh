@@ -8,4 +8,4 @@ if [ -z "${version}" ]; then
   exit 1
 fi
 
-curl https://raw.githubusercontent.com/wojtekmach/beamup2/master/install.sh | bash -s $version
+bash install.sh $version
