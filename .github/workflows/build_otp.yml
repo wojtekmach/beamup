@@ -45,7 +45,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-16.04, macos-10.15]
+        os: [ubuntu-16.04] #, macos-10.15]
     steps:
     - uses: actions/checkout@v2
 
@@ -70,17 +70,26 @@ jobs:
     - run: mkdir -p tmp/beamup && cd tmp/beamup && mkdir -p ${{ steps.release-name.outputs.name }} && tar czf ${{ steps.release-name.outputs.name }}.tar.gz ${{ steps.release-name.outputs.name }}
       if: ${{ steps.asset-exists.outputs.exists == 'false' }}
 
-    - id: upload-url
-      name: Set upload url
-      run: echo ::set-output name=url::$(gh api repos/wojtekmach/otp_releases/releases/tags/OTP-${{ github.event.inputs.version }} | jq -r .upload_url)
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      if: ${{ steps.asset-exists.outputs.exists == 'false' }}
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ${{ steps.release-name.outputs.name }}
+        path: tmp/beamup/${{ steps.release-name.outputs.name }}.tar.gz
+        if: ${{ !env.ACT }}
 
-    - name: Upload Release Asset
-      run: scripts/upload.sh wojtekmach/otp_releases OTP-${{ github.event.inputs.version }} tmp/beamup/${{ steps.release-name.outputs.name }}.tar.gz
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - run: gh api repos/wojtekmach/beamup2/actions/runs/${{ env.GITHUB_RUN_ID }}/artifacts
+      if: ${{ !env.ACT }}
+
+    # - id: upload-url
+    #   name: Set upload url
+    #   run: echo ::set-output name=url::$(gh api repos/wojtekmach/otp_releases/releases/tags/OTP-${{ github.event.inputs.version }} | jq -r .upload_url)
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   if: ${{ steps.asset-exists.outputs.exists == 'false' }}
+
+    # - name: Upload Release Asset
+    #   run: scripts/upload.sh wojtekmach/otp_releases OTP-${{ github.event.inputs.version }} tmp/beamup/${{ steps.release-name.outputs.name }}.tar.gz
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # - name: Upload Release Asset
     #   uses: actions/upload-release-asset@v1
