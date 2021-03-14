@@ -5,15 +5,38 @@ on:
       version:
         description: 'The OTP version'
         required: true
+      prerelease:
+        description: 'Is it a pre-release?'
+        default: false
 
 jobs:
   ensure_release:
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    runs-on: ubuntu-16.04
     steps:
-      - run: gh api -XPOST repos/wojtekmach/otp_releases/releases -Ftag_name=OTP-${{ github.event.inputs.version }} || true
-        if: ${{ !env.ACT }}
+      - run: gh api -XHEAD repos/erlang/otp/releases/tags/OTP-${{ github.event.inputs.version }}
+        name: Check erlang/otp
+
+      - id: check-release
+        name: Check wojtekmach/otp_releases 
+        run: |
+          if gh api -XHEAD repos/wojtekmach/otp_releases/releases/tags/OTP-${{ github.event.inputs.version }}; then 
+            echo ::set-output name=exists::$(echo true)
+          else
+            echo ::set-output name=exists::$(echo false)
+          fi
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          owner: wojtekmach
+          repo: otp_releases
+          commitish: main
+          tag_name: OTP-${{ github.event.inputs.version }}
+          prerelease: ${{ contains(github.event.inputs.version, "rc") }}
+        if: ${{ steps.check-release.outputs.exists == 'false' }}
 
   build:
     needs: [ensure_release]
@@ -21,9 +44,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-10.15]
-    env:
-      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        os: [ubuntu-16.04, macos-10.15]
     steps:
     - uses: actions/checkout@v2
     - name: Set release name
@@ -31,5 +52,15 @@ jobs:
       run: echo ::set-output name=NAME::$(echo otp-${{ github.event.inputs.version }}-$(uname -s)-$(uname -m) | tr '[:upper:]' '[:lower:]')
     - run: TMPDIR=$PWD/tmp ./scripts/build_otp.sh ${{ github.event.inputs.version }}
 
-    - run: ./scripts/upload.sh wojtekmach/otp_releases OTP-${{ github.event.inputs.version }} tmp/${{ steps.release-name.outputs.NAME }}.tar.gz
-      if: ${{ !env.ACT }}
+    - id: upload-url
+      run: echo ::set-output name=url::$(gh api repos/erlang/otp/releases/tags/OTP-${{ github.event.inputs.version }} | jq -r .upload_url)
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.upload-url.outputs.url }}
+        asset_path: tmp/${{ steps.release-name.outputs.NAME }}.tar.gz
+        asset_name: ${{ steps.release-name.outputs.NAME }}.tar.gz
+        asset_content_type: application/gzip
