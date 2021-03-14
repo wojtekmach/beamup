@@ -8,7 +8,10 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: ${{ github.action_path }}/../install.sh ${{ inputs.otp-version }}
+    - run: ${{ github.action_path }}/../install.sh
+      env:
+        OTP_VERSION: ${{ inputs.otp-version }}
+        ELIXIR_VERSION: ${{ inputs.elixir-version }}
       shell: bash
 
     - run: echo "$HOME/.local/share/beamup/installs/otp/${{ inputs.otp-version }}/bin" >> $GITHUB_PATH
@@ -16,5 +19,6 @@ runs:
 
     - run: |
         [[ "${{ inputs.elixir-version }}" != "" ]] && \
-          echo "$HOME/.local/share/beamup/installs/elixir/${{ inputs.elixir-version }}/bin" >> $GITHUB_PATH || true
+          echo "$HOME/.local/share/beamup/installs/elixir/${{ inputs.elixir-version }}/bin" >> $GITHUB_PATH || \
+          true
       shell: bash
