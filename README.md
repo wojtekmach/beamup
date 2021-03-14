@@ -1,3 +1,7 @@
+## beamup
+
+A proof-of-concept BEAM installer.
+
 ## Notes
 
 ```
