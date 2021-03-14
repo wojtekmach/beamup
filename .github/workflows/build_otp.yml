@@ -30,7 +30,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         with:
           owner: wojtekmach
           repo: otp_releases
@@ -70,14 +70,8 @@ jobs:
     # - run: mkdir -p tmp/beamup && cd tmp/beamup && mkdir -p ${{ steps.release-name.outputs.name }} && tar czf ${{ steps.release-name.outputs.name }}.tar.gz ${{ steps.release-name.outputs.name }}
     #   if: ${{ steps.asset-exists.outputs.exists == 'false' }}
 
-    # - uses: actions/upload-artifact@v2
-    #   with:
-    #     name: ${{ steps.release-name.outputs.name }}
-    #     path: tmp/beamup/${{ steps.release-name.outputs.name }}.tar.gz
-    #     if: ${{ !env.ACT }}
-
-    - run: echo '{"ref":"main","inputs":{"tag":"OTP-${{ github.event.inputs.version }}","workflow_url":"repos/wojtekmach/beamup2/actions/runs/'${GITHUB_RUN_ID}'"}}' > input.txt
-
-    - run: gh api -XPOST repos/wojtekmach/otp_releases/actions/workflows/upload_assets.yml/dispatches --input input.txt
+    - run: gh release upload -R wojtekmach/otp_releases OTP-${{ github.event.inputs.version }} tmp/beamup/${{ steps.release-name.outputs.name }}.tar.gz
+      name: Upload asset
       env:
         GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+      if: ${{ steps.asset-exists.outputs.exists == 'false' }}

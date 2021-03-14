@@ -19,6 +19,6 @@ for i in $otp_tags; do
   else
     echo "syncing $i"
     gh api -XPOST repos/wojtekmach/beamup2/actions/workflows/build_otp.yml/dispatches \
-      --input <(echo '{"ref":"master","inputs":{"tag":"'${i}'"}}')
+      --input <(echo '{"ref":"master","inputs":{"version":"'${i/OTP-/}'"}}')
   fi
 done
