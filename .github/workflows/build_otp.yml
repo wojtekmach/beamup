@@ -9,6 +9,7 @@ on:
 jobs:
   ensure_release:
     runs-on: ubuntu-16.04
+    name: "Ensure release (${{ github.event.inputs.version }})"
     steps:
       - run: gh api -XHEAD repos/erlang/otp/releases/tags/OTP-${{ github.event.inputs.version }}
         name: Check erlang/otp
