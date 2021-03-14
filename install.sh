@@ -22,6 +22,7 @@ tar xzf $release.tar.gz
 root=$HOME/.local/share/beamup/installs/otp
 echo "installing to $root/$version"
 rm -rf $root/$version
+mkdir -p $root
 mv $release $root/$version
 cd $root/$version
 ./Install -sasl $PWD

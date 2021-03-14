@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+
 version=$1
 
 if [ -z "${version}" ]; then
@@ -7,4 +8,4 @@ if [ -z "${version}" ]; then
   exit 1
 fi
 
-echo "using OTP ${version}"
+curl https://raw.githubusercontent.com/wojtekmach/beamup2/master/install.sh | bash -s $version
