@@ -80,7 +80,7 @@ jobs:
 
     - run: gh api -XPOST repos/wojtekmach/otp_releases/actions/workflows/upload_assets.yml/dispatches --input input.txt
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
 
     # - id: upload-url
     #   name: Set upload url
