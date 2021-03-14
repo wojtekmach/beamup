@@ -14,5 +14,5 @@ jobs:
       - uses: ./setup-beam
         with:
           otp-version: 24.0-rc1
-      - run: erl -noshell -eval 'io:format("Erlang/OTP ~s ~s~n", [erlang:system_info(otp_release), erlang:system_info(system_architecture)]), halt().'
-        name: Test OTP version
+          elixir-version: 1.11.3
+      - run: elixir --version
