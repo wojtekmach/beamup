@@ -54,20 +54,21 @@ jobs:
       run: echo ::set-output name=name::$(echo otp-${{ github.event.inputs.version }}-$(uname -s)-$(uname -m) | tr '[:upper:]' '[:lower:]')
 
     - id: asset-exists
-      run: 
+      name: Check if release asset exists
       run: |
         if gh api repos/wojtekmach/otp_releases/releases/$(gh api repos/wojtekmach/otp_releases/releases/tags/OTP-23.2.7 | jq .id)/assets | jq -r '.[].name' | grep ${{ steps.release-name.outputs.name }}; then
           echo ::set-output name=exists::$(echo true)
         else
           echo ::set-output name=exists::$(echo false)
         fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - run: TMPDIR=$PWD/tmp ./scripts/build_otp.sh ${{ github.event.inputs.version }}
       if: ${{ steps.asset-exists.outputs.exists == 'false' }}
 
-    - run: mkdir -p tmp && cd tmp && mkdir -p ${{ steps.release-name.outputs.name }} && tar czf ${{ steps.release-name.outputs.name }}.tar.gz ${{ steps.release-name.outputs.name }}
-      name: Check if release asset exists
-      if: ${{ steps.asset-exists.outputs.exists == 'false' }}
+    # - run: mkdir -p tmp && cd tmp && mkdir -p ${{ steps.release-name.outputs.name }} && tar czf ${{ steps.release-name.outputs.name }}.tar.gz ${{ steps.release-name.outputs.name }}
+    #   if: ${{ steps.asset-exists.outputs.exists == 'false' }}
 
     - id: upload-url
       name: Set upload url
