@@ -10,5 +10,5 @@ runs:
   steps:
     - run: ls -la
       shell: bash
-    - run: ${{ github.action_path }}/setup_otp.sh ${{ inputs.otp-version }}
+    - run: ${{ github.action_path }}/../setup_otp.sh ${{ inputs.otp-version }}
       shell: bash
