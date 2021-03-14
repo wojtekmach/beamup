@@ -2,13 +2,30 @@ name: Build OTP release
 on:
   workflow_dispatch:
     inputs:
-      tag:
-        description: 'The git tag of the release'
+      version:
+        description: 'The OTP version'
         required: true
 
 jobs:
-  build:
+  ensure_release:
     runs-on: ubuntu-latest
     steps:
-    - run: |
-        echo "Hello ${{ github.event.inputs.tag }}!"
+      - run: gh release create -R wojtekmach/otp_releases OTP-${{ github.event.inputs.version }} || true
+        if: ${{ !env.ACT }}
+
+  build:
+    needs: [ensure_release]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-10.15]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set release name
+      id: release-name
+      run: echo ::set-output name=NAME::$(echo otp-${{ github.event.inputs.version }}-$(uname -s)-$(uname -m) | tr '[:upper:]' '[:lower:]')
+    - run: TMPDIR=$PWD/tmp ./scripts/build_otp.sh ${{ github.event.inputs.version }}
+
+    - run: ./scripts/upload.sh wojtekmach/otp_releases OTP-${{ github.event.inputs.version }} tmp/${{ steps.release-name.outputs.NAME }}.tar.gz
+      if: ${{ !env.ACT }}

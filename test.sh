@@ -7,4 +7,4 @@
 # gh pr checkout 514
 # go build
 
-../act/act -P ubuntu-latest=node:12.21.0-buster
+../act/act -P ubuntu-latest=node:12.21.0-buster $@

@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Builds a given OTP version. On success, prints to stdout an absolute path to the generated
-# release tarball.
-
 set -e
 version=$1
 
@@ -13,13 +10,16 @@ fi
 
 OTP_BUILD_FLAGS="--without-jinterface"
 
-echo "building OTP ${version}" 1>&2
+echo "building OTP ${version}"
 
-mkdir -p tmp
-cd tmp
+TMPDIR="${TMPDIR:=tmp}/beamup"
+mkdir -p $TMPDIR
+echo "cd $TMPDIR"
+cd $TMPDIR
 
 if [ ! -f otp_src_${version}.tar.gz ]; then
   url=https://github.com/erlang/otp/releases/download/OTP-${version}/otp_src_${version}.tar.gz
+  echo "downloading $url" 1>&2
   curl --fail -LO $url 1>&2
 fi
 
@@ -34,12 +34,14 @@ fi
 cd otp_src_${version}
 export ERL_TOP=$PWD
 release=$(echo otp-${version}-$(uname -s)-$(uname -m) | tr '[:upper:]' '[:lower:]')
-export RELEASE_ROOT=$PWD/${release}
+
+export RELEASE_ROOT=$TMPDIR/${release}
 make release -j$(getconf _NPROCESSORS_ONLN) 1>&2
 
 # TODO: disabling for now as it unnecessarily regenerates chunks, we already have them from the
 # pre-compiled source!
 # make release_docs -j$(getconf _NPROCESSORS_ONLN) DOC_TARGETS="chunks"
 
+cd $TMPDIR
+echo "creating ${TMPDIR}/${release}.tar.gz"
 tar czf ${release}.tar.gz ${release}
-echo $PWD/${release}.tar.gz
