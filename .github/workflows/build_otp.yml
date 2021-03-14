@@ -48,13 +48,33 @@ jobs:
         os: [ubuntu-16.04, macos-10.15]
     steps:
     - uses: actions/checkout@v2
+
     - name: Set release name
       id: release-name
-      run: echo ::set-output name=NAME::$(echo otp-${{ github.event.inputs.version }}-$(uname -s)-$(uname -m) | tr '[:upper:]' '[:lower:]')
+      run: echo ::set-output name=name::$(echo otp-${{ github.event.inputs.version }}-$(uname -s)-$(uname -m) | tr '[:upper:]' '[:lower:]')
+
+    - id: asset-exists
+      run: 
+      run: |
+        if gh api repos/wojtekmach/otp_releases/releases/$(gh api repos/wojtekmach/otp_releases/releases/tags/OTP-23.2.7 | jq .id)/assets | jq -r '.[].name' | grep ${{ steps.release-name.outputs.name }}; then
+          echo ::set-output name=exists::$(echo true)
+        else
+          echo ::set-output name=exists::$(echo false)
+        fi
+
     - run: TMPDIR=$PWD/tmp ./scripts/build_otp.sh ${{ github.event.inputs.version }}
+      if: ${{ steps.asset-exists.outputs.exists == 'false' }}
+
+    - run: mkdir -p tmp && cd tmp && mkdir -p ${{ steps.release-name.outputs.name }} && tar czf ${{ steps.release-name.outputs.name }}.tar.gz ${{ steps.release-name.outputs.name }}
+      name: Check if release asset exists
+      if: ${{ steps.asset-exists.outputs.exists == 'false' }}
 
     - id: upload-url
-      run: echo ::set-output name=url::$(gh api repos/erlang/otp/releases/tags/OTP-${{ github.event.inputs.version }} | jq -r .upload_url)
+      name: Set upload url
+      run: echo ::set-output name=url::$(gh api repos/wojtekmach/otp_releases/releases/tags/OTP-${{ github.event.inputs.version }} | jq -r .upload_url)
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      if: ${{ steps.asset-exists.outputs.exists == 'false' }}
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
@@ -62,6 +82,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.upload-url.outputs.url }}
-        asset_path: tmp/${{ steps.release-name.outputs.NAME }}.tar.gz
-        asset_name: ${{ steps.release-name.outputs.NAME }}.tar.gz
+        asset_path: tmp/${{ steps.release-name.outputs.name }}.tar.gz
+        asset_name: ${{ steps.release-name.outputs.name }}.tar.gz
         asset_content_type: application/gzip
+      if: ${{ steps.asset-exists.outputs.exists == 'false' }}
