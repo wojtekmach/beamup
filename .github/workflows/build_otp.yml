@@ -67,7 +67,7 @@ jobs:
     - run: TMPDIR=$PWD/tmp ./scripts/build_otp.sh ${{ github.event.inputs.version }}
       if: ${{ steps.asset-exists.outputs.exists == 'false' }}
 
-    # - run: mkdir -p tmp && cd tmp && mkdir -p ${{ steps.release-name.outputs.name }} && tar czf ${{ steps.release-name.outputs.name }}.tar.gz ${{ steps.release-name.outputs.name }}
+    # - run: mkdir -p tmp/beamup && cd tmp/beamup && mkdir -p ${{ steps.release-name.outputs.name }} && tar czf ${{ steps.release-name.outputs.name }}.tar.gz ${{ steps.release-name.outputs.name }}
     #   if: ${{ steps.asset-exists.outputs.exists == 'false' }}
 
     - id: upload-url
@@ -83,7 +83,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.upload-url.outputs.url }}
-        asset_path: tmp/${{ steps.release-name.outputs.name }}.tar.gz
+        asset_path: tmp/beamup/${{ steps.release-name.outputs.name }}.tar.gz
         asset_name: ${{ steps.release-name.outputs.name }}.tar.gz
         asset_content_type: application/gzip
       if: ${{ steps.asset-exists.outputs.exists == 'false' }}
