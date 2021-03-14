@@ -56,7 +56,7 @@ jobs:
     - id: asset-exists
       name: Check if release asset exists
       run: |
-        if gh api repos/wojtekmach/otp_releases/releases/$(gh api repos/wojtekmach/otp_releases/releases/tags/OTP-23.2.7 | jq .id)/assets | jq -r '.[].name' | grep ${{ steps.release-name.outputs.name }}; then
+        if gh api repos/wojtekmach/otp_releases/releases/$(gh api repos/wojtekmach/otp_releases/releases/tags/OTP-${{ github.event.inputs.version }} | jq .id)/assets | jq -r '.[].name' | grep ${{ steps.release-name.outputs.name }}; then
           echo ::set-output name=exists::$(echo true)
         else
           echo ::set-output name=exists::$(echo false)
