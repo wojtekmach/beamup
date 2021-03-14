@@ -1,0 +1,13 @@
+on:
+  schedule:
+    # every hour
+    - cron: '0 * * *'
+
+jobs:
+  sync_otp_releases:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: ./scripts/sync_otp_releases.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
