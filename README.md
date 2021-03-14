@@ -21,7 +21,7 @@ This project contains four main components:
 ### 2. Hosting - on GitHub releases
 
    Currently we use a separate GitHub repository that just holds releases so that we can upload
-   asserts. Eventually we hope to simply use <https://github.com/erlang/otp/releases>.
+   assets. Eventually we hope to simply use <https://github.com/erlang/otp/releases>.
 
    See: <https://github.com/wojtekmach/otp_releases/releases>
 
@@ -30,7 +30,7 @@ This project contains four main components:
    We downoad pre-compiled binaries from:
 
    - for OTP: <https://github.com/wojtekmach/otp_releases/releases>
-   - for Elixir: <https://github.com/elixir-lang/elixim/releases>
+   - for Elixir: <https://github.com/elixir-lang/elixir/releases>
 
    Example with Docker:
 
