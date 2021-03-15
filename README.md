@@ -74,6 +74,7 @@ Example:
   with:
     otp-version: 24.0-rc1
     elixir-version: 1.11.3
+    gleam-version: 0.14.2
 - run: elixir --version
 ```
 
