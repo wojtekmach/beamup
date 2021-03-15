@@ -12,6 +12,7 @@ main() {
     echo
     echo " - OTP_VERSION"
     echo " - ELIXIR_VERSION"
+    echo " - GLEAM_VERSION"
     exit 1
   fi
 
