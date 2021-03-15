@@ -30,8 +30,15 @@ See: <https://github.com/wojtekmach/otp_releases/releases>
 Example:
 
 ```
-$ export OTP_VERSION=23.2.7 ELIXIR_VERSION=1.11.3 && \
+$ export OTP_VERSION=23.2.7 ELIXIR_VERSION=1.11.3 GLEAM_VERSION=0.14.2 && \
    curl https://raw.githubusercontent.com/wojtekmach/beamup/master/install.sh | bash
+$ export PATH=$HOME/.local/share/beamup/bin:$PATH
+$ elixir --version
+Erlang/OTP 23 [erts-11.1.8] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1]
+
+Elixir 1.11.3 (compiled with Erlang/OTP 21)
+$ gleam --version
+gleam 0.14.2
 ```
 
 See [`install.sh`](install.sh).
