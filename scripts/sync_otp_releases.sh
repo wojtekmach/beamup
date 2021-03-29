@@ -8,7 +8,7 @@ tags() {
 my_tags=$(tags wojtekmach/otp_releases)
 otp_tags=$(
   tags erlang/otp | \
-    # OTP 23.2.7+, 23.3+, or 24
+    # OTP 23.2.6+, 23.3+, or 24
     grep -e OTP-23.2 -e OTP-23.3 -e OTP-24 | \
     grep -E -v -e "OTP-23.2$" -e "OTP-23.2.[1-5]"
 )
