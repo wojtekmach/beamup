@@ -46,13 +46,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-16.04, macos-10.15]
+        os: [ubuntu-18.04, macos-10.15]
     steps:
     - uses: actions/checkout@v2
 
     - name: Set release name
       id: release-name
-      run: echo ::set-output name=name::otp-${{ github.event.inputs.version }}-$(uname -sm | tr '[:upper:]' '[:lower:]' | tr ' ' '-').tar.gz
+      run: echo ::set-output name=name::otp-${{ github.event.inputs.version }}-$(uname -sm | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
 
     - id: asset-exists
       name: Check if release asset exists
@@ -72,7 +72,7 @@ jobs:
     # - run: mkdir -p tmp/beamup && cd tmp/beamup && mkdir -p ${{ steps.release-name.outputs.name }} && tar czf ${{ steps.release-name.outputs.name }}.tar.gz ${{ steps.release-name.outputs.name }}
     #   if: ${{ steps.asset-exists.outputs.exists == 'false' }}
 
-    - run: gh release upload -R wojtekmach/otp_releases OTP-${{ github.event.inputs.version }} tmp/beamup/${{ steps.release-name.outputs.name }}
+    - run: gh release upload -R wojtekmach/otp_releases OTP-${{ github.event.inputs.version }} tmp/beamup/${{ steps.release-name.outputs.name }}.tar.gz
       name: Upload asset
       env:
         GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
