@@ -24,7 +24,8 @@ if [ ! -f otp_src_${version}.tar.gz ]; then
 fi
 
 if [ ! -d otp_src_${version} ]; then
-  tar xzf otp_src_${version}.tar.gz
+  mkdir -p otp_src_${version}
+  tar xzf otp_src_${version}.tar.gz -C otp_src_${version} --strip-components 1
   cd otp_src_${version}
   export ERL_TOP=$PWD
   ./otp_build setup -a $OTP_BUILD_FLAGS 1>&2
