@@ -33,7 +33,7 @@ fi
 
 cd otp_src_${version}
 export ERL_TOP=$PWD
-release=$(echo otp-${version}-$(uname -sm | tr '[:upper:]' '[:lower:]' | tr ' ' '-').tar.gz)
+release=$(echo otp-${version}-$(uname -sm | tr '[:upper:]' '[:lower:]' | tr ' ' '-'))
 
 export RELEASE_ROOT=$TMPDIR/${release}
 make release -j$(getconf _NPROCESSORS_ONLN) 1>&2
