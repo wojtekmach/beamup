@@ -72,7 +72,7 @@ jobs:
     # - run: mkdir -p tmp/beamup && cd tmp/beamup && mkdir -p ${{ steps.release-name.outputs.name }} && tar czf ${{ steps.release-name.outputs.name }}.tar.gz ${{ steps.release-name.outputs.name }}
     #   if: ${{ steps.asset-exists.outputs.exists == 'false' }}
 
-    - run: gh release upload -R wojtekmach/otp_releases OTP-${{ github.event.inputs.version }} tmp/beamup/${{ steps.release-name.outputs.name }}.tar.gz
+    - run: gh release upload -R wojtekmach/otp_releases OTP-${{ github.event.inputs.version }} tmp/beamup/${{ steps.release-name.outputs.name }}
       name: Upload asset
       env:
         GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
